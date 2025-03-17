@@ -1,0 +1,71 @@
+= API 문서
+:toc: left
+:toclevels: 2
+:sectlinks:
+:doctype: book
+:source-highlighter: highlightjs
+
+== 사용자 API
+
+=== 회원 가입
+
+회원 가입을 수행하는 API입니다.
+
+.HTTP 요청
+include::{snippets}/user-register/http-request.adoc[]
+
+.HTTP 응답
+include::{snippets}/user-register/http-response.adoc[]
+
+== 배송 관리 API
+
+=== 배송 생성
+
+배송 정보를 생성하는 API입니다.
+
+.HTTP 요청
+include::{snippets}/delivery-create/http-request.adoc[]
+
+.요청 필드
+include::{snippets}/delivery-create/request-fields.adoc[]
+
+.HTTP 응답
+include::{snippets}/delivery-create/http-response.adoc[]
+
+.응답 필드
+include::{snippets}/delivery-create/response-fields.adoc[]
+
+=== 기간별 배송 조회
+
+특정 기간 내의 배송 정보를 조회하는 API입니다.
+
+.HTTP 요청
+include::{snippets}/deliveries-search/http-request.adoc[]
+
+.요청 파라미터
+include::{snippets}/deliveries-search/request-parameters.adoc[]
+
+.HTTP 응답
+include::{snippets}/deliveries-search/http-response.adoc[]
+
+.응답 필드
+include::{snippets}/deliveries-search/response-fields.adoc[]
+
+=== 배송 주소 업데이트
+
+특정 배송의 주소를 업데이트하는 API입니다.
+
+.HTTP 요청
+include::{snippets}/delivery-update-address/http-request.adoc[]
+
+.경로 변수
+include::{snippets}/delivery-update-address/path-parameters.adoc[]
+
+.요청 파라미터
+include::{snippets}/delivery-update-address/request-parameters.adoc[]
+
+.HTTP 응답
+include::{snippets}/delivery-update-address/http-response.adoc[]
+
+.응답 필드
+include::{snippets}/delivery-update-address/response-fields.adoc[]
