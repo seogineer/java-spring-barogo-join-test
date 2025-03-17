@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.seogineer.javaspringbarogojointest.enums.ErrorMessage.INVALID_USERNAME_OR_PASSWORD;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -40,7 +42,7 @@ public class AuthController {
             return ResponseEntity.ok(new AuthResponse(jwtToken));
 
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(INVALID_USERNAME_OR_PASSWORD.getMessage());
         }
     }
 }
