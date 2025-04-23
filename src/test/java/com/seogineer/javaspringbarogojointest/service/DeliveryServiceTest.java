@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,7 +88,7 @@ class DeliveryServiceTest {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(2);
         LocalDateTime startDateTime = startDate.atStartOfDay();
-        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+        LocalDateTime endDateTime = startDate.plusDays(2).atTime(LocalTime.MAX);
 
         Delivery delivery1 = new Delivery();
         delivery1.setUser(사용자1);
