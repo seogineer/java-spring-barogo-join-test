@@ -7,6 +7,7 @@ import com.seogineer.javaspringbarogojointest.enums.ErrorMessage;
 import com.seogineer.javaspringbarogojointest.enums.Role;
 import com.seogineer.javaspringbarogojointest.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse getInfo(org.springframework.security.core.userdetails.User user) {
-        User userInfo = userRepository.findByUsername(user.getUsername()).get();
+        User userInfo = userRepository.findByUsername(user.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException(ErrorMessage.USER_NOT_FOUND.getMessage()));
         return new UserResponse(userInfo);
     }
 }

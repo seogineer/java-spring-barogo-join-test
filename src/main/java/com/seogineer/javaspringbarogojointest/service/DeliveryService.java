@@ -4,10 +4,12 @@ import com.seogineer.javaspringbarogojointest.dto.DeliveryCreateRequest;
 import com.seogineer.javaspringbarogojointest.dto.DeliveryResponse;
 import com.seogineer.javaspringbarogojointest.entity.Delivery;
 import com.seogineer.javaspringbarogojointest.enums.DeliveryStatus;
+import com.seogineer.javaspringbarogojointest.enums.ErrorMessage;
 import com.seogineer.javaspringbarogojointest.repository.DeliveryRepository;
 import com.seogineer.javaspringbarogojointest.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +36,8 @@ public class DeliveryService {
         }
 
         Delivery delivery = new Delivery();
-        delivery.setUser(userRepository.findByUsername(user.getUsername()).get());
+        delivery.setUser(userRepository.findByUsername(user.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException(ErrorMessage.USER_NOT_FOUND.getMessage())));
         delivery.setUsername(user.getUsername());
         delivery.setDeliveryAddress(request.getDeliveryAddress());
         delivery.setDeliveryDate(request.getDeliveryDate());
