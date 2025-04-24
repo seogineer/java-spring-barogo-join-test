@@ -106,7 +106,8 @@ class DeliveryServiceTest {
         when(deliveryRepository.findByUsernameAndDeliveryDateBetween(사용자1.getUsername(), startDateTime, endDateTime))
                 .thenReturn(List.of(delivery1, delivery2));
 
-        List<DeliveryResponse> responses = deliveryService.getDeliveriesWithinDateRange(startDate, endDate, userDetails.getUsername());
+        List<DeliveryResponse> responses =
+                deliveryService.getDeliveriesWithinDateRange(startDate, endDate, userDetails.getUsername());
 
         assertThat(responses).hasSize(2);
         assertThat(responses.get(0).getDeliveryAddress()).isEqualTo("주소1");
@@ -124,12 +125,10 @@ class DeliveryServiceTest {
 
     @Test
     void 유저가_배달_소유자가_아닐_경우_수정할_수_없다() {
-        // given
         Delivery delivery = new Delivery();
         delivery.setUsername("otherUser");
         when(deliveryRepository.findById(1L)).thenReturn(Optional.of(delivery));
 
-        // when & then
         assertThatThrownBy(() -> deliveryService.updateDeliveryAddress(1L, "새 주소", userDetails))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(USER_INFO_MISMATCH.getMessage());
@@ -155,7 +154,8 @@ class DeliveryServiceTest {
         when(deliveryRepository.findById(1L)).thenReturn(Optional.of(delivery));
         when(deliveryRepository.save(any(Delivery.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        DeliveryResponse response = deliveryService.updateDeliveryAddress(1L, "새 주소", userDetails);
+        DeliveryResponse response =
+                deliveryService.updateDeliveryAddress(1L, "새 주소", userDetails);
 
         assertThat(response.getDeliveryAddress()).isEqualTo("새 주소");
     }

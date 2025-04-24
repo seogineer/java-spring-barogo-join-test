@@ -8,7 +8,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserTest {
     @Test
     void 생성() {
-        User user = new User("username", "1234", "name", Role.USER);
+        String expectedUsername = "username";
+        String expectedPassword = "1234";
+        String expectedName     = "name";
+        Role   expectedRole     = Role.USER;
+
+        User user = new User(expectedUsername, expectedPassword, expectedName, expectedRole);
 
         assertThat(user.getUsername()).isEqualTo("username");
         assertThat(user.getPassword()).isEqualTo("1234");
