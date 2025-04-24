@@ -1,5 +1,6 @@
 package com.seogineer.javaspringbarogojointest.controller;
 
+import com.seogineer.javaspringbarogojointest.dto.AuthRequest;
 import com.seogineer.javaspringbarogojointest.dto.AuthResponse;
 import com.seogineer.javaspringbarogojointest.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
@@ -9,10 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.seogineer.javaspringbarogojointest.enums.ErrorMessage.INVALID_USERNAME_OR_PASSWORD;
 
@@ -29,15 +27,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String jwtToken = jwtUtil.generateToken(username);
+            String jwtToken = jwtUtil.generateToken(request.getUsername());
 
             return ResponseEntity.ok(new AuthResponse(jwtToken));
 
