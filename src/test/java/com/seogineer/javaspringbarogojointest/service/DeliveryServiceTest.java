@@ -78,7 +78,7 @@ class DeliveryServiceTest {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(4);
 
-        assertThatThrownBy(() -> deliveryService.getDeliveriesWithinDateRange(startDate, endDate, userDetails))
+        assertThatThrownBy(() -> deliveryService.getDeliveriesWithinDateRange(startDate, endDate, userDetails.getUsername()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(MAX_PERIOD_EXCEEDED.getMessage());
     }
@@ -103,10 +103,10 @@ class DeliveryServiceTest {
         delivery2.setDeliveryStatus(DeliveryStatus.ORDERED);
 
         when(userRepository.findByUsername("user1")).thenReturn(Optional.of(사용자1));
-        when(deliveryRepository.findByUserAndDeliveryDateBetween(사용자1, startDateTime, endDateTime))
+        when(deliveryRepository.findByUsernameAndDeliveryDateBetween(사용자1.getUsername(), startDateTime, endDateTime))
                 .thenReturn(List.of(delivery1, delivery2));
 
-        List<DeliveryResponse> responses = deliveryService.getDeliveriesWithinDateRange(startDate, endDate, userDetails);
+        List<DeliveryResponse> responses = deliveryService.getDeliveriesWithinDateRange(startDate, endDate, userDetails.getUsername());
 
         assertThat(responses).hasSize(2);
         assertThat(responses.get(0).getDeliveryAddress()).isEqualTo("주소1");

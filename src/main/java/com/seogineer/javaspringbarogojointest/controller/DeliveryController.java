@@ -38,7 +38,7 @@ public class DeliveryController {
             @RequestParam @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
             @AuthenticationPrincipal User user) {
 
-        List<DeliveryResponse> deliveries = deliveryService.getDeliveriesWithinDateRange(startDate, endDate, user);
+        List<DeliveryResponse> deliveries = deliveryService.getDeliveriesWithinDateRange(startDate, endDate, user.getUsername());
         return ResponseEntity.ok(deliveries);
     }
 

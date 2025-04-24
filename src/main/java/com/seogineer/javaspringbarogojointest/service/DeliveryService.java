@@ -45,7 +45,7 @@ public class DeliveryService {
     }
 
     @Transactional(readOnly = true)
-    public List<DeliveryResponse> getDeliveriesWithinDateRange(LocalDate startDate, LocalDate endDate, User user) {
+    public List<DeliveryResponse> getDeliveriesWithinDateRange(LocalDate startDate, LocalDate endDate, String username) {
         if (ChronoUnit.DAYS.between(startDate, endDate) > 3) {
             throw new IllegalArgumentException(MAX_PERIOD_EXCEEDED.getMessage());
         }
@@ -53,10 +53,10 @@ public class DeliveryService {
         LocalDateTime startDateTime = startDate.atStartOfDay();
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.MAX);
 
-        com.seogineer.javaspringbarogojointest.entity.User entityUser = userRepository.findByUsername(user.getUsername())
+        com.seogineer.javaspringbarogojointest.entity.User entityUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
-        List<Delivery> deliveries = deliveryRepository.findByUserAndDeliveryDateBetween(entityUser, startDateTime, endDateTime);
+        List<Delivery> deliveries = deliveryRepository.findByUsernameAndDeliveryDateBetween(entityUser.getUsername(), startDateTime, endDateTime);
 
         return deliveries.stream().map(DeliveryResponse::new).collect(Collectors.toList());
     }
